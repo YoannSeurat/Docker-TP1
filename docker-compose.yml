@@ -6,7 +6,8 @@ services:
         environment:
             SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/db
         networks:
-            - app-network
+            - back-network
+            - front-network
         depends_on:
             # starts the database service before the backend service
             - database
@@ -15,7 +16,7 @@ services:
         build: ./database
         # (not exposing ports)
         networks:
-            - app-network
+            - back-network
         volumes:
             - database-data:/var/lib/postgresql/data
 
@@ -24,7 +25,7 @@ services:
         ports:
             - "80:80"
         networks:
-            - app-network
+            - front-network
         depends_on:
             # starts the backend service before the server service
             - backend
@@ -32,6 +33,7 @@ services:
 # creates a private Docker network shared by all three services
 networks:
   app-network:
+  app_bis-network:
 
 volumes:
   database-data:
